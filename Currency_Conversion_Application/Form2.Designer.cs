@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.startdate = new System.Windows.Forms.DateTimePicker();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SearchBtn = new System.Windows.Forms.Button();
             this.searchCombo = new System.Windows.Forms.ComboBox();
             this.enddate = new System.Windows.Forms.DateTimePicker();
             this.searchinput = new System.Windows.Forms.TextBox();
@@ -49,15 +49,15 @@
             this.startdate.Size = new System.Drawing.Size(81, 20);
             this.startdate.TabIndex = 0;
             // 
-            // button1
+            // SearchBtn
             // 
-            this.button1.Location = new System.Drawing.Point(542, 34);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Search";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.SearchBtn.Location = new System.Drawing.Point(542, 34);
+            this.SearchBtn.Name = "SearchBtn";
+            this.SearchBtn.Size = new System.Drawing.Size(75, 23);
+            this.SearchBtn.TabIndex = 1;
+            this.SearchBtn.Text = "Search";
+            this.SearchBtn.UseVisualStyleBackColor = true;
+            this.SearchBtn.Click += new System.EventHandler(this.button1_Click);
             // 
             // searchCombo
             // 
@@ -134,9 +134,9 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(355, 56);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.Size = new System.Drawing.Size(154, 17);
             this.checkBox1.TabIndex = 10;
-            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.Text = "Click to search useing date";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // Form2
@@ -153,7 +153,7 @@
             this.Controls.Add(this.searchinput);
             this.Controls.Add(this.enddate);
             this.Controls.Add(this.searchCombo);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.SearchBtn);
             this.Controls.Add(this.startdate);
             this.Name = "Form2";
             this.Text = "Form2";
@@ -166,7 +166,7 @@
         #endregion
 
         private System.Windows.Forms.DateTimePicker startdate;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SearchBtn;
         private System.Windows.Forms.ComboBox searchCombo;
         private System.Windows.Forms.DateTimePicker enddate;
         private System.Windows.Forms.TextBox searchinput;

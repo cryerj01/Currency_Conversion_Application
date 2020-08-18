@@ -21,7 +21,9 @@ namespace Currency_Conversion_Application
 
         SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\turne\\Desktop\\Currency_Conversion_Application\\Currency_Conversion_Application\\Properties\\Database1.mdf;Integrated Security=True");
         SqlCommand cmd;
+        
         SqlDataReader Dr;
+        private string cmdtext;
 
         private void getCurrencys()
         {
@@ -46,18 +48,202 @@ namespace Currency_Conversion_Application
             //get all info for the search
            int.TryParse(searchinput.Text, out int searchValue);
             string combo = searchCombo.Text;
-            DateTime start = this.startdate.Value.Date;
-            DateTime end = this.enddate.Value.Date;
-            
+            if (checkBox1.Checked)
+            {
+                DateTime start = this.startdate.Value.Date;
+                DateTime end = this.enddate.Value.Date;
+                search(searchValue, combo, start, end);
+            }
+            search(searchValue, combo);
 
-            searchCombo(searchValue, combo, start, end);
 
-            
+
+
         }
 
-        private void searchCombo(int searchValue, string combo, DateTime start, DateTime end)
+        private void search(int searchValue, string combo)
         {
-            throw new NotImplementedException();
+            
+            
+            switch (combo.Trim())
+            {
+                case "EUR":
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'EUR'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = ' " + find + "'";
+                        }
+                    }
+                    break;
+                case "GBP":
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'GBP'";
+                     if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = '" + find + "'";
+                        }
+                    }
+                    break;
+                case "USD":
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'USD'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = '" + find + "'";
+                        }
+                    }
+                    break;
+                case "AUD":
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'AUD'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = '" + find + "'";
+                        }
+                    }
+                    break;
+                case "ALL":
+                    cmdtext = "SELECT * FROM Coversions";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " Where  input = '" + find + "'";
+                        }
+                    }
+                    break;
+                default:
+                    cmdtext = "SELECT * FROM Coversions";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " Where input = '" + find + "'";
+                        }
+                    }
+
+                    break;
+          
+            }
+
+           
+            cmd = new SqlCommand(cmdtext, con);
+            SqlDataAdapter adpt =  new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+            
+            dataGridView1.DataSource = ds.Tables[0];
+            dataGridView1.Update();
+            
+            
         }
+
+        private void search(int searchValue, string combo, DateTime start, DateTime end)
+        {
+
+
+            switch (combo.Trim())
+            {
+                case "EUR":
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'EUR'";
+                   cmdtext += " AND date BETWEEN '" +start.Date + "' And '" + end.Date +"'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                       
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = ' " + find + "'";
+                        }
+                    }
+                    break;
+                case "GBP":
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'GBP'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = '" + find + "'";
+                        }
+                    }
+                    break;
+                case "USD":
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'USD'";
+                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = '" + find + "'";
+                        }
+                    }
+                    break;
+                case "AUD":
+
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'AUD'";
+                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND input = '" + find + "'";
+                        }
+                    }
+                    break;
+                case "ALL":
+                    cmdtext = "SELECT * FROM Coversions";
+                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " Where  input = '" + find + "'";
+                        }
+                    }
+                    break;
+                default:
+                    cmdtext = "SELECT * FROM Coversions";
+                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " Where input = '" + find + "'";
+                        }
+                    }
+
+                    break;
+
+            }
+
+
+            cmd = new SqlCommand(cmdtext, con);
+            SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+            DataSet ds = new DataSet();
+            adpt.Fill(ds);
+
+            dataGridView1.DataSource = ds.Tables[0];
+            dataGridView1.Update();
+
+
+        }
+
+
     }
 }

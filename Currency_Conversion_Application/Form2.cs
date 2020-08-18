@@ -36,7 +36,14 @@ namespace Currency_Conversion_Application
             while (Dr.Read())
             {
                 string line = Dr["CurrencyName"].ToString();
-                searchCombo.Items.Add(line);
+                if (line.Trim() == "GBP")
+                {
+
+                }
+                else
+                {
+                    searchCombo.Items.Add(line);
+                }
             }
             searchCombo.Items.Add("All");
             Dr.Close();
@@ -54,8 +61,9 @@ namespace Currency_Conversion_Application
                 DateTime end = this.enddate.Value.Date;
                 search(searchValue, combo, start, end);
             }
+            else { 
             search(searchValue, combo);
-
+               }
 
 
 
@@ -157,14 +165,14 @@ namespace Currency_Conversion_Application
             {
                 case "EUR":
                     cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'EUR'";
-                   cmdtext += " AND date BETWEEN '" +start.Date + "' And '" + end.Date +"'";
+                  
                     if (searchinput.ToString().Trim() != null)
                     {
                        
                         if (int.TryParse(searchinput.Text, out int find))
                         {
 
-                            cmdtext += " AND input = ' " + find + "'";
+                            cmdtext += " AND input = '" + find + "'";
                         }
                     }
                     break;
@@ -181,7 +189,7 @@ namespace Currency_Conversion_Application
                     break;
                 case "USD":
                     cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'USD'";
-                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                 
                     if (searchinput.ToString().Trim() != null)
                     {
                         if (int.TryParse(searchinput.Text, out int find))
@@ -194,7 +202,7 @@ namespace Currency_Conversion_Application
                 case "AUD":
 
                     cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'AUD'";
-                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                  
                     if (searchinput.ToString().Trim() != null)
                     {
                         if (int.TryParse(searchinput.Text, out int find))
@@ -206,7 +214,7 @@ namespace Currency_Conversion_Application
                     break;
                 case "ALL":
                     cmdtext = "SELECT * FROM Coversions";
-                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                   
                     if (searchinput.ToString().Trim() != null)
                     {
                         if (int.TryParse(searchinput.Text, out int find))
@@ -218,7 +226,7 @@ namespace Currency_Conversion_Application
                     break;
                 default:
                     cmdtext = "SELECT * FROM Coversions";
-                    cmdtext += " AND date BETWEEN '" + start.Date + "' And '" + end.Date + "'";
+                    
                     if (searchinput.ToString().Trim() != null)
                     {
                         if (int.TryParse(searchinput.Text, out int find))
@@ -229,17 +237,34 @@ namespace Currency_Conversion_Application
                     }
 
                     break;
-
+                    
+            }
+            if (combo == "" | combo == "ALL")
+            {
+                cmdtext += " Where  conversiondate BETWEEN CONVERT(DATE,'" + start.ToShortDateString() + "',103) AND CONVERT(DATE,'" + end.ToShortDateString() + "',103)";
+            }
+            else
+            {
+                cmdtext += "  AND  conversiondate BETWEEN CONVERT(DATE,'" + start.ToShortDateString() + "',103) AND CONVERT(DATE,'" + end.ToShortDateString() + "',103)";
             }
 
-
+            cmdtext += " ORDER BY conversionDate";
+            
             cmd = new SqlCommand(cmdtext, con);
             SqlDataAdapter adpt = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
             DataSet ds = new DataSet();
-            adpt.Fill(ds);
+            con.Open();
+           
+            adpt.Fill(dt);
+            ds.Tables.Add(dt);
+            con.Close();
 
+          
             dataGridView1.DataSource = ds.Tables[0];
-            dataGridView1.Update();
+            dataGridView1.Refresh();
+
+
 
 
         }

@@ -43,8 +43,13 @@ namespace Currency_Conversion_Application
             while (Dr.Read())
             {
                 string line = Dr["CurrencyName"].ToString();
+                if(line.Trim() == "GBP")
+                {
+
+                }
+                else {
                 comboBox1.Items.Add(line);
-            }
+            } }
             Dr.Close();
             con.Close();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Currency_Conversion_Application
 {
@@ -18,6 +20,8 @@ namespace Currency_Conversion_Application
         public Form1()
         {
             InitializeComponent();
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            
             getCurrencys();
           
         }
@@ -26,28 +30,148 @@ namespace Currency_Conversion_Application
         SqlCommand cmd;
         SqlDataReader Dr;
 
-        ComboBox CurrencySelector = new ComboBox();
+       
         
 
         private void getCurrencys()
         {
             con.Open();
-            string cmdtext = "SELECT CurrenctName FROM Currencys";
+            string cmdtext = "SELECT CurrencyName FROM Currencys";
             cmd = new SqlCommand(cmdtext, con);
             Dr = cmd.ExecuteReader();
-            Dr.Read();
-            int i = 0;
-            while (Dr[i] != null)
+
+            while (Dr.Read())
             {
-                CurrencySelector.Items.Add(Dr[i]);
-                i++;
+                string line = Dr["CurrencyName"].ToString();
+                comboBox1.Items.Add(line);
             }
-
-           
-
+            Dr.Close();
+            con.Close();
 
         }
 
+        private void ConvertBtn_Click(object sender, EventArgs e)
+        {
+            double rate;
+           rate = getChosenRate();
+            if (rate == -1)
+            {
+                Value.Text = "PLEASE SELCT A CURRENCY FROM THE DROP DOWN";
+                return;
+            }
+            else
+            {
+                string combo = comboBox1.Text;
+                string symble = getRateSymble(combo);
+                string convert = input.Text;
+                double result = calculate(convert, rate);
+                Value.Text = $"Value is: {symble}{result}";
 
+                storeConvertion(convert, result, combo);
+            
+            
+            }
+        
+        
+        
+        
+        
+        
+        
+        }
+
+        private void storeConvertion(string convert, double result, string combo)
+        {
+
+            int.TryParse(input.Text, out int entered);
+            cmd.Connection = con;
+            cmd.CommandText = "InsertIntoCoversions";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@input", entered);
+            cmd.Parameters.AddWithValue("@convertedTo", combo);
+            cmd.Parameters.AddWithValue("@output", result);
+            
+
+            con.Open();
+            
+            int saved = cmd.ExecuteNonQuery();
+            con.Close();
+                
+            if (saved<0 )
+            {
+                MessageBox.Show("Not Saved");
+            }
+        }
+
+        private string getRateSymble(string text)
+        {
+            con.Open();
+            string cmdtext = "SELECT * FROM Currencys Where CurrencyName = '" + text + "'";
+            cmd = new SqlCommand(cmdtext, con);
+            Dr = cmd.ExecuteReader();
+            Dr.Read();
+            string symble = Dr["CurrencySymble"].ToString();
+
+            con.Close();
+            Dr.Close();
+            return symble;
+
+        }
+
+        private double calculate(string convert, double rate)
+        {
+            Double inPut;
+            Double.TryParse(convert, out inPut);
+            Double result = (inPut * rate);
+
+            double output = Math.Round(result, 2);
+
+           
+            
+            return output;
+        }
+
+        private double getChosenRate()
+        {
+            try
+            {
+                double rate;
+                con.Open();
+                string cmdtext = "SELECT CurrencyValue FROM Currencys Where CurrencyName = '" + comboBox1.Text + "'";
+                cmd = new SqlCommand(cmdtext, con);
+                Dr = cmd.ExecuteReader();
+                Dr.Read();
+                // Console.WriteLine(cmdtext);
+                string result = Dr["CurrencyValue"].ToString();
+                Double.TryParse(result, out rate);
+                Dr.Close();
+                con.Close();
+
+                string rateVal = rate.ToString();
+                ratevalue.Text = rateVal;
+                return rate;
+            }
+            catch (Exception e)
+            {
+                Dr.Close();
+                con.Close();
+                Console.WriteLine(e);
+               
+                
+                return -1;
+            }
+           
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            getChosenRate();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form2 search = new Form2();
+            search.Show();
+        }
     }
 }

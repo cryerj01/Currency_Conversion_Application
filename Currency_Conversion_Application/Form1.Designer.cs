@@ -28,37 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.ConvertBtn = new System.Windows.Forms.Button();
+            this.input = new System.Windows.Forms.TextBox();
+            this.iputlable = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.conbolable = new System.Windows.Forms.Label();
+            this.ratevalue = new System.Windows.Forms.Label();
+            this.Value = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // ConvertBtn
             // 
-            this.button1.Location = new System.Drawing.Point(425, 40);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Convert";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ConvertBtn.Location = new System.Drawing.Point(425, 41);
+            this.ConvertBtn.Name = "ConvertBtn";
+            this.ConvertBtn.Size = new System.Drawing.Size(75, 23);
+            this.ConvertBtn.TabIndex = 0;
+            this.ConvertBtn.Text = "Convert";
+            this.ConvertBtn.UseVisualStyleBackColor = true;
+            this.ConvertBtn.Click += new System.EventHandler(this.ConvertBtn_Click);
             // 
-            // textBox1
+            // input
             // 
-            this.textBox1.Location = new System.Drawing.Point(81, 43);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(111, 20);
-            this.textBox1.TabIndex = 1;
+            this.input.Location = new System.Drawing.Point(81, 43);
+            this.input.Name = "input";
+            this.input.Size = new System.Drawing.Size(111, 20);
+            this.input.TabIndex = 1;
             // 
-            // label1
+            // iputlable
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(81, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Enter a currencey in £";
+            this.iputlable.AutoSize = true;
+            this.iputlable.Location = new System.Drawing.Point(81, 27);
+            this.iputlable.Name = "iputlable";
+            this.iputlable.Size = new System.Drawing.Size(111, 13);
+            this.iputlable.TabIndex = 2;
+            this.iputlable.Text = "Enter a currencey in £";
             // 
             // comboBox1
             // 
@@ -68,28 +72,60 @@
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 3;
             this.comboBox1.Text = "Select one";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // label2
+            // conbolable
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(232, 26);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(162, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Select the currency to convert to";
+            this.conbolable.AutoSize = true;
+            this.conbolable.Location = new System.Drawing.Point(232, 26);
+            this.conbolable.Name = "conbolable";
+            this.conbolable.Size = new System.Drawing.Size(162, 13);
+            this.conbolable.TabIndex = 4;
+            this.conbolable.Text = "Select the currency to convert to";
+            // 
+            // ratevalue
+            // 
+            this.ratevalue.AutoSize = true;
+            this.ratevalue.Location = new System.Drawing.Point(235, 71);
+            this.ratevalue.Name = "ratevalue";
+            this.ratevalue.Size = new System.Drawing.Size(71, 13);
+            this.ratevalue.TabIndex = 6;
+            this.ratevalue.Text = "Currenct rate ";
+            // 
+            // Value
+            // 
+            this.Value.AutoSize = true;
+            this.Value.Location = new System.Drawing.Point(235, 113);
+            this.Value.Name = "Value";
+            this.Value.Size = new System.Drawing.Size(90, 13);
+            this.Value.TabIndex = 7;
+            this.Value.Text = "Value will be here";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 239);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(155, 26);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Search conversion history";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(707, 277);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.Value);
+            this.Controls.Add(this.ratevalue);
+            this.Controls.Add(this.conbolable);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.iputlable);
+            this.Controls.Add(this.input);
+            this.Controls.Add(this.ConvertBtn);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Currency Converter";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -97,11 +133,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button ConvertBtn;
+        private System.Windows.Forms.TextBox input;
+        private System.Windows.Forms.Label iputlable;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label conbolable;
+        private System.Windows.Forms.Label ratevalue;
+        private System.Windows.Forms.Label Value;
+        private System.Windows.Forms.Button button1;
     }
 }
 

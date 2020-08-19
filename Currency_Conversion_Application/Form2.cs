@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,12 @@ namespace Currency_Conversion_Application
             getCurrencys();
         }
 
-        SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\turne\\Desktop\\Currency_Conversion_Application\\Currency_Conversion_Application\\Properties\\Database1.mdf;Integrated Security=True");
+        
+        static string path1 = System.IO.Directory.GetCurrentDirectory();
+        static string path2 = Directory.GetParent(path1).FullName;
+        static string path3 = Directory.GetParent(path2).FullName;
+
+        SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename= " + path3 + "\\Properties\\Database1.mdf;Integrated Security=True");
         SqlCommand cmd;
         
         SqlDataReader Dr;
@@ -36,7 +42,7 @@ namespace Currency_Conversion_Application
             while (Dr.Read())
             {
                 string line = Dr["CurrencyName"].ToString();
-                if (line.Trim() == "GBP")
+                if (line.Trim() == "GBP" )
                 {
 
                 }
@@ -71,66 +77,12 @@ namespace Currency_Conversion_Application
 
         private void search(int searchValue, string combo)
         {
-            
-            
+
+            string search = combo.Trim();
             switch (combo.Trim())
             {
-                case "EUR":
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'EUR'";
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
 
-                            cmdtext += " AND input = ' " + find + "'";
-                        }
-                    }
-                    break;
-                case "GBP":
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'GBP'";
-                     if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " AND input = '" + find + "'";
-                        }
-                    }
-                    break;
-                case "USD":
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'USD'";
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " AND input = '" + find + "'";
-                        }
-                    }
-                    break;
-                case "AUD":
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'AUD'";
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " AND input = '" + find + "'";
-                        }
-                    }
-                    break;
-                case "ALL":
-                    cmdtext = "SELECT * FROM Coversions";
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " Where  input = '" + find + "'";
-                        }
-                    }
-                    break;
-                default:
+                case "":
                     cmdtext = "SELECT * FROM Coversions";
                     if (searchinput.ToString().Trim() != null)
                     {
@@ -140,6 +92,20 @@ namespace Currency_Conversion_Application
                             cmdtext += " Where input = '" + find + "'";
                         }
                     }
+                    break;
+
+                    
+                default:
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo  = '" + search + "'";
+                    if (searchinput.ToString().Trim() != null)
+                    {
+                        if (int.TryParse(searchinput.Text, out int find))
+                        {
+
+                            cmdtext += " AND  input = '" + find + "'";
+                        }
+                    }
+                    
 
                     break;
           
@@ -159,12 +125,12 @@ namespace Currency_Conversion_Application
 
         private void search(int searchValue, string combo, DateTime start, DateTime end)
         {
-
+            string search = combo.Trim();
 
             switch (combo.Trim())
             {
-                case "EUR":
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'EUR'";
+                case "":
+                    cmdtext = "SELECT * FROM Coversions ";
                   
                     if (searchinput.ToString().Trim() != null)
                     {
@@ -172,61 +138,14 @@ namespace Currency_Conversion_Application
                         if (int.TryParse(searchinput.Text, out int find))
                         {
 
-                            cmdtext += " AND input = '" + find + "'";
+                            cmdtext += "WHERE  input = '" + find + "'";
                         }
                     }
                     break;
-                case "GBP":
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'GBP'";
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " AND input = '" + find + "'";
-                        }
-                    }
-                    break;
-                case "USD":
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'USD'";
-                 
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " AND input = '" + find + "'";
-                        }
-                    }
-                    break;
-                case "AUD":
-
-                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo = 'AUD'";
-                  
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " AND input = '" + find + "'";
-                        }
-                    }
-                    break;
-                case "ALL":
-                    cmdtext = "SELECT * FROM Coversions";
-                   
-                    if (searchinput.ToString().Trim() != null)
-                    {
-                        if (int.TryParse(searchinput.Text, out int find))
-                        {
-
-                            cmdtext += " Where  input = '" + find + "'";
-                        }
-                    }
-                    break;
+                
                 default:
-                    cmdtext = "SELECT * FROM Coversions";
-                    
+                    cmdtext = "SELECT * FROM Coversions WHERE convertedTo  = '" + search + "'";
+
                     if (searchinput.ToString().Trim() != null)
                     {
                         if (int.TryParse(searchinput.Text, out int find))
@@ -239,7 +158,7 @@ namespace Currency_Conversion_Application
                     break;
                     
             }
-            if (combo == "" | combo == "ALL")
+            if (combo == "" && searchinput.Text == "")
             {
                 cmdtext += " Where  conversiondate BETWEEN CONVERT(DATE,'" + start.ToShortDateString() + "',103) AND CONVERT(DATE,'" + end.ToShortDateString() + "',103)";
             }

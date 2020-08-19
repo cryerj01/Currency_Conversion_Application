@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,7 +28,11 @@ namespace Currency_Conversion_Application
           
         }
 
-        SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\turne\\Desktop\\Currency_Conversion_Application\\Currency_Conversion_Application\\Properties\\Database1.mdf;Integrated Security=True");
+        static string path1 = System.IO.Directory.GetCurrentDirectory();
+        static string path2 = Directory.GetParent(path1).FullName;
+        static string path3 = Directory.GetParent(path2).FullName;
+
+        SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename= " + path3 + "\\Properties\\Database1.mdf;Integrated Security=True");
         SqlCommand cmd;
         SqlDataReader Dr;
 
@@ -177,6 +183,16 @@ namespace Currency_Conversion_Application
         {
             Form2 search = new Form2();
             search.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form3 addnewCurrency = new Form3();
+            addnewCurrency.Show();
+            if (addnewCurrency.IsDisposed)
+            {
+                getCurrencys();
+            }
         }
     }
 }

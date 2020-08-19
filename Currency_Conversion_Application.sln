@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Currency_Conversion_Application", "Currency_Conversion_Application\Currency_Conversion_Application.csproj", "{0B8006EC-F579-4D55-902A-C4998157547C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{765B3DB8-4BCD-4707-999E-84DBDBB02CC0}"
+	ProjectSection(SolutionItems) = preProject
+		Currencys.cs = Currencys.cs
+		TestSettings1.testsettings = TestSettings1.testsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

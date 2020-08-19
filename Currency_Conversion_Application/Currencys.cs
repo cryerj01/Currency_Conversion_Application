@@ -43,8 +43,8 @@ public class Currency
 
         cmd = new SqlCommand(cmdtext, con);
         Dr = cmd.ExecuteReader();
-        
-        if (Dr.Read() != null)
+        Dr.Read();
+        if (!Dr.HasRows)
         {
             Dr.Close();
          
